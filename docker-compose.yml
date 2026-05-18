@@ -1,0 +1,50 @@
+services:
+  order-service:
+    build: ./order-service
+    container_name: order-service
+    ports:
+      - "8080:8080"
+    depends_on:
+      inventory-service:
+        condition: service_healthy
+    # Exercise 1 — uncomment this block to attach the OpenTelemetry Java agent.
+    # The OTEL_EXPORTER_OTLP_* values come from your .env file.
+    # environment:
+    #   - JAVA_TOOL_OPTIONS=-javaagent:/otel/opentelemetry-javaagent.jar
+    #   - OTEL_SERVICE_NAME=order-service
+    #   - OTEL_EXPORTER_OTLP_ENDPOINT=${OTEL_EXPORTER_OTLP_ENDPOINT}
+    #   - OTEL_EXPORTER_OTLP_HEADERS=${OTEL_EXPORTER_OTLP_HEADERS}
+    #   - OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
+    #   - OTEL_TRACES_EXPORTER=otlp
+    #   - OTEL_METRICS_EXPORTER=none
+    #   - OTEL_LOGS_EXPORTER=none
+    #   - OTEL_RESOURCE_ATTRIBUTES=service.namespace=workshop,service.version=1.0.0,deployment.environment=lab
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8080/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 30s
+
+  inventory-service:
+    build: ./inventory-service
+    container_name: inventory-service
+    ports:
+      - "8081:8081"
+    # Exercise 1 — uncomment this block to attach the OpenTelemetry Java agent.
+    # environment:
+    #   - JAVA_TOOL_OPTIONS=-javaagent:/otel/opentelemetry-javaagent.jar
+    #   - OTEL_SERVICE_NAME=inventory-service
+    #   - OTEL_EXPORTER_OTLP_ENDPOINT=${OTEL_EXPORTER_OTLP_ENDPOINT}
+    #   - OTEL_EXPORTER_OTLP_HEADERS=${OTEL_EXPORTER_OTLP_HEADERS}
+    #   - OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
+    #   - OTEL_TRACES_EXPORTER=otlp
+    #   - OTEL_METRICS_EXPORTER=none
+    #   - OTEL_LOGS_EXPORTER=none
+    #   - OTEL_RESOURCE_ATTRIBUTES=service.namespace=workshop,service.version=1.0.0,deployment.environment=lab
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8081/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 30s

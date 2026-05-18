@@ -1,0 +1,22 @@
+# Build output
+target/
+*.jar
+*.class
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.project
+.classpath
+.settings/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local secrets — DO NOT COMMIT YOUR OTLP TOKEN
+.env
+
+# Logs
+*.log

@@ -1,0 +1,11 @@
+server:
+  port: 8080
+
+inventory:
+  service:
+    url: ${INVENTORY_SERVICE_URL:http://inventory-service:8081}
+
+logging:
+  level:
+    root: INFO
+    com.workshop.order: INFO
